@@ -34,7 +34,12 @@ export class UserService {
     return await this.userRepository
       .save(newUser)
       .then(() => {
-        const token = this.jwtService.sign({ id: newUser.id });
+        const token = this.jwtService.sign({
+          id: newUser.id,
+          username: newUser.username,
+          email: newUser.email,
+          role: newUser.role,
+        });
         res.cookie('jwt', token, { httpOnly: true });
         return newUser;
       })
@@ -50,7 +55,12 @@ export class UserService {
     const { email, password } = userData;
     const user = await this.userRepository.findOne({ where: { email } });
     if (user && (await bcrypt.compare(password, user.password))) {
-      const token = this.jwtService.sign({ id: user.id });
+      const token = this.jwtService.sign({
+        id: user.id,
+        username: user.username,
+        email: user.email,
+        role: user.role,
+      });
       res.cookie('jwt', token, { httpOnly: true });
       return user;
     }
