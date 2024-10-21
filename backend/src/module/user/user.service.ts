@@ -15,7 +15,7 @@ export class UserService {
     private jwtService: JwtService,
   ) {}
 
-  async createUser(userData: CreateUserParm, res: Response): Promise<User> {
+  async createUser(userData: CreateUserParm, res: Response): Promise<any> {
     // Check if email already exists
     const existingUser = await this.userRepository.findOne({
       where: { email: userData.email },
@@ -41,7 +41,7 @@ export class UserService {
           role: newUser.role,
         });
         res.cookie('jwt', token, { httpOnly: true });
-        return newUser;
+        return {...newUser,token};
       })
       .catch((error) => {
         throw new Error('Error creating user: ' + error.message); // Handle errors during user creation
@@ -51,7 +51,7 @@ export class UserService {
   async loginUser(
     userData: LoginUserParm,
     res: Response,
-  ): Promise<User | null> {
+  ): Promise<any> {
     const { email, password } = userData;
     const user = await this.userRepository.findOne({ where: { email } });
     if (user && (await bcrypt.compare(password, user.password))) {
@@ -62,7 +62,7 @@ export class UserService {
         role: user.role,
       });
       res.cookie('jwt', token, { httpOnly: true });
-      return user;
+      return {...user,token};
     }
     return null;
   }
