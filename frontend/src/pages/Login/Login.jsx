@@ -1,10 +1,13 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
+import { useDispatch } from 'react-redux'; // Import useDispatch from react-redux
+import { setUser } from '../../redux/feature/user/userSlice';
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState(''); // Added state for error message
+  const dispatch = useDispatch(); // Initialize dispatch
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -24,6 +27,10 @@ const Login = () => {
 
       const data = await response.json();
       console.log(data);
+      localStorage.setItem('jwt', data.user.token); 
+      const {id,email,role,username} = data.user;
+      dispatch(setUser({id,email,role,username})); // Dispatch action to set user data in Redux store
+      
     } catch (error) {
       console.error('Error:', error);
       setError('Login failed. Please check your credentials and try again.'); // Set error message
