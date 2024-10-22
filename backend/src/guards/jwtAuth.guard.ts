@@ -20,6 +20,7 @@ export class JwtAuthGuard implements CanActivate {
     let token = request.cookies?.jwt;
 
     // Check for token in headers if not found in cookies
+    console.log(token)
     if (!token) {
       token = request.headers['authorization']?.split(' ')[1]; // Extract token from Bearer header
     }

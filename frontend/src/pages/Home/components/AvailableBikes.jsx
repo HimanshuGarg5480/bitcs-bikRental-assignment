@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { setBike } from "../../../redux/feature/bike/bikeSlice";
 
-const AvailableBikes = () => {
+const AvailableBikes = ({setShowRentalForm}) => {
   const [bikes, setBikes] = useState([]);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     // Fetch available bikes using fetch
@@ -15,9 +18,12 @@ const AvailableBikes = () => {
       });
   }, []);
 
-  const handleRentNow = (bikeId) => {
+  const handleRentNow = (bike) => {
     // Logic to handle renting a bike
-    console.log("Rent bike with ID:", bikeId);
+    dispatch(setBike(bike));
+    setShowRentalForm(true);
+    console.log("Rent bike with ID:");
+
   };
   return (
     <div className="h-full w-screen bg-gray-700 text-white px-[5%] pt-5">
@@ -41,7 +47,7 @@ const AvailableBikes = () => {
               <div className="text-xl font-semibold">{bike.model}</div>
               <div>Price per hour: ${bike.pricePerHour}</div>
               <button
-                onClick={() => handleRentNow(bike.id)}
+                onClick={() => handleRentNow(bike)}
                 className="bg-blue-600 hover:bg-blue-500 text-white px-4 py-2 mt-2 rounded text-center" // Darker button with hover effect
               >
                 Rent Now

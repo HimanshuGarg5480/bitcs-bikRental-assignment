@@ -1,13 +1,18 @@
 import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'; // Import useDispatch from react-redux
 import { setUser } from '../../redux/feature/user/userSlice';
 
 const Login = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [formData, setFormData] = useState({ email: '', password: '' }); // Combined state for email and password
   const [error, setError] = useState(''); // Added state for error message
   const dispatch = useDispatch(); // Initialize dispatch
+  const navigate = useNavigate();
+
+  const handleChange = (e) => {
+    const { name, value } = e.target; // Destructure name and value from the event target
+    setFormData((prevData) => ({ ...prevData, [name]: value })); // Update the specific field in the state
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -18,7 +23,7 @@ const Login = () => {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ email, password }),
+        body: JSON.stringify(formData), // Use formData for the request body
       });
 
       if (!response.ok) {
@@ -30,6 +35,7 @@ const Login = () => {
       localStorage.setItem('jwt', data.user.token); 
       const {id,email,role,username} = data.user;
       dispatch(setUser({id,email,role,username})); // Dispatch action to set user data in Redux store
+      navigate('/');
       
     } catch (error) {
       console.error('Error:', error);
@@ -45,8 +51,9 @@ const Login = () => {
           <label className="block text-sm font-medium text-gray-300">Email:</label>
           <input 
             type="email" 
-            value={email} 
-            onChange={(e) => setEmail(e.target.value)} 
+            name="email" // Added name attribute
+            value={formData.email} // Access email from formData
+            onChange={handleChange} // Use handleChange for input
             required 
             className="mt-1 block w-full p-2 border border-gray-600 rounded bg-gray-700 text-white focus:outline-none focus:ring focus:ring-blue-500"
           />
@@ -55,8 +62,9 @@ const Login = () => {
           <label className="block text-sm font-medium text-gray-300">Password:</label>
           <input 
             type="password" 
-            value={password} 
-            onChange={(e) => setPassword(e.target.value)} 
+            name="password" // Added name attribute
+            value={formData.password} // Access password from formData
+            onChange={handleChange} // Use handleChange for input
             required 
             className="mt-1 block w-full p-2 border border-gray-600 rounded bg-gray-700 text-white focus:outline-none focus:ring focus:ring-blue-500"
           />
