@@ -7,7 +7,7 @@ const RentalForm = ({ showRentalForm, setShowRentalForm }) => {
   const [startTime, setStartTime] = useState("");
   const [endTime, setEndTime] = useState("");
   const [totalCost, setTotalCost] = useState(0);
-  const [errorMessage, setErrorMessage] = useState(""); // New state for error messages
+  const [errorMessage, setErrorMessage] = useState("");
 
   const bike = useSelector((state) => state.bike.bikeInfo);
   const user = useSelector((state) => state.user.userInfo);
@@ -27,7 +27,7 @@ const RentalForm = ({ showRentalForm, setShowRentalForm }) => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        userId: user.id, // Replace with logged-in user's ID
+        userId: user.id,
         bikeId: bike.id,
         rentalStartTime: startTime,
         rentalEndTime: endTime,
@@ -41,13 +41,13 @@ const RentalForm = ({ showRentalForm, setShowRentalForm }) => {
       })
       .then((data) => {
         console.log("Rental created:", data);
-        setErrorMessage(""); // Clear any previous error messages
+        setErrorMessage(""); 
         setShowRentalForm(false);
         dispatch(clearBike());
       })
       .catch((error) => {
         console.error("Error creating rental:", error);
-        setErrorMessage("Failed to create rental. Please try again."); // Set error message
+        setErrorMessage("Failed to create rental. Please try again.");
       });
   };
 
@@ -102,7 +102,7 @@ const RentalForm = ({ showRentalForm, setShowRentalForm }) => {
           Calculate Total Cost
         </button>
         {totalCost > 0 && <p>Total Cost: ${totalCost}</p>}
-        {errorMessage && <p className="text-red-500">{errorMessage}</p>} {/* Display error message */}
+        {errorMessage && <p className="text-red-500">{errorMessage}</p>} 
         <button
           onClick={handleSubmit}
           className="bg-green-600 text-white px-4 py-2 rounded mt-4 hover:bg-green-500"

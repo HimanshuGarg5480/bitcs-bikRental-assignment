@@ -1,7 +1,7 @@
 import { Injectable, CanActivate, ExecutionContext } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { Request } from 'express';
-import { ExtendedRequest } from '../utils/request.interface'; // Import the extended Request interface
+import { ExtendedRequest } from '../utils/request.interface';
 
 @Injectable()
 export class JwtAuthGuard implements CanActivate {
@@ -11,7 +11,6 @@ export class JwtAuthGuard implements CanActivate {
     const request: ExtendedRequest = context.switchToHttp().getRequest(); // Use the extended Request interface
     let token = request.cookies?.jwt;
 
-    // Check for token in headers if not found in cookies
     console.log(token)
     if (!token) {
       token = request.headers['authorization']?.split(' ')[1]; // Extract token from Bearer header

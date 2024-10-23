@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import { Link, useNavigate } from "react-router-dom"; // Import Link for navigation
+import { Link, useNavigate } from "react-router-dom"; 
 import { setUser } from "../../redux/feature/user/userSlice";
 
 const Signup = () => {
   const [formData, setFormData] = useState({ username: "", email: "", password: "" });
-  const [errorMessage, setErrorMessage] = useState(""); // State for error message
+  const [errorMessage, setErrorMessage] = useState(""); 
 
   const navigate = useNavigate();
 
@@ -14,7 +14,7 @@ const Signup = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prevData) => ({ ...prevData, [name]: value })); // Update specific field
+    setFormData((prevData) => ({ ...prevData, [name]: value }));
   };
 
   const handleSubmit = async (e) => {
@@ -27,12 +27,12 @@ const Signup = () => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(formData), // Use merged state
+        body: JSON.stringify(formData)
       });
 
       if (!response.ok) {
         const errorData = await response.json();
-        throw new Error(errorData.error || "Signup failed"); // Use error message from response
+        throw new Error(errorData.error || "Signup failed"); 
       }
 
       const data = await response.json();
@@ -40,17 +40,15 @@ const Signup = () => {
       localStorage.setItem("jwt", data.user.token);
       const { id, email, role, username } = data.user;
       dispatch(setUser({ id, email, role, username }));
-      // Handle successful signup (e.g., redirect or show a success message)
       navigate('/')
     } catch (error) {
       console.error("Error:", error);
-      setErrorMessage(error.message); // Set error message to state
+      setErrorMessage(error.message); 
     }
   };
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-900">
-      {/* Signup Form */}
       <form
         onSubmit={handleSubmit}
         className="bg-gray-800 p-6 rounded shadow-md w-96"
@@ -106,7 +104,6 @@ const Signup = () => {
         {errorMessage && (
           <p className="mt-4 text-red-500 text-center">{errorMessage}</p>
         )}{" "}
-        {/* Display error message */}
         <p className="mt-4 text-center text-gray-300">
           Already have an account?
           <Link to="/login" className="text-blue-500 hover:underline">

@@ -7,19 +7,17 @@ const AvailableBikes = ({setShowRentalForm}) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    // Fetch available bikes using fetch
     fetch("/api/bikes/")
-      .then((response) => response.json()) // Parse JSON response
+      .then((response) => response.json()) 
       .then((data) => {
         setBikes(data);
       })
       .catch((error) => {
-        console.error("Error fetching bikes:", error); // Handle errors
+        console.error("Error fetching bikes:", error); 
       });
   }, []);
 
   const handleRentNow = (bike) => {
-    // Logic to handle renting a bike
     dispatch(setBike(bike));
     setShowRentalForm(true);
     console.log("Rent bike with ID:");
@@ -28,7 +26,6 @@ const AvailableBikes = ({setShowRentalForm}) => {
   return (
     <div className="h-full w-screen bg-gray-700 text-white px-[5%] pt-5">
       {" "}
-      {/* Dark theme background and text color */}
       <div className="mx-auto w-[80%]">
         <h1 className="text-3xl font-bold mb-4">Available Bikes</h1>
         <div className="flex flex-wrap gap-5 text-xs">
@@ -48,7 +45,7 @@ const AvailableBikes = ({setShowRentalForm}) => {
               <div>Price per hour: ${bike.pricePerHour}</div>
               <button
                 onClick={() => handleRentNow(bike)}
-                className="bg-blue-600 hover:bg-blue-500 text-white px-4 py-2 mt-2 rounded text-center" // Darker button with hover effect
+                className="bg-blue-600 hover:bg-blue-500 text-white px-4 py-2 mt-2 rounded text-center"
               >
                 Rent Now
               </button>

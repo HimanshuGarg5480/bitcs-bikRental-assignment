@@ -33,7 +33,6 @@ export class RentalController {
     return this.rentalService.returnBike(rentalId, returnTime);
   }
 
-  // Delete a rental (Admin use case)
   @Delete(':rentalId')
   @UseGuards(JwtAuthGuard)
   async deleteRental(@Param('rentalId') rentalId: number) {

@@ -16,7 +16,6 @@ export class UserService {
   ) {}
 
   async createUser(userData: CreateUserParm, res: Response): Promise<any> {
-    // Check if email already exists
     const existingUser = await this.userRepository.findOne({
       where: { email: userData.email },
     });

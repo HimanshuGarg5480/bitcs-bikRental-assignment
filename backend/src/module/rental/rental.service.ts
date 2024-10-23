@@ -19,7 +19,6 @@ export class RentalService {
     private userRepository: Repository<User>,
   ) {}
 
-  // Define service methods here
   async createRental(createRentalDto: CreateRentalDto): Promise<Rental> {
     let { userId, bikeId, rentalStartTime, rentalEndTime } = createRentalDto;
 

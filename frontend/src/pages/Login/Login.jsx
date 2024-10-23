@@ -1,45 +1,45 @@
 import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { useDispatch } from 'react-redux'; // Import useDispatch from react-redux
+import { useDispatch } from 'react-redux'; 
 import { setUser } from '../../redux/feature/user/userSlice';
 
 const Login = () => {
-  const [formData, setFormData] = useState({ email: '', password: '' }); // Combined state for email and password
-  const [error, setError] = useState(''); // Added state for error message
-  const dispatch = useDispatch(); // Initialize dispatch
+  const [formData, setFormData] = useState({ email: '', password: '' }); 
+  const [error, setError] = useState(''); 
+  const dispatch = useDispatch(); 
   const navigate = useNavigate();
 
   const handleChange = (e) => {
-    const { name, value } = e.target; // Destructure name and value from the event target
-    setFormData((prevData) => ({ ...prevData, [name]: value })); // Update the specific field in the state
+    const { name, value } = e.target; 
+    setFormData((prevData) => ({ ...prevData, [name]: value }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError(''); // Reset error message on new submission
+    setError(''); 
     try {
       const response = await fetch('/api/user/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(formData), // Use formData for the request body
+        body: JSON.stringify(formData), 
       });
 
       if (!response.ok) {
-        throw new Error('Login failed'); // This will be caught in the catch block
+        throw new Error('Login failed'); 
       }
 
       const data = await response.json();
       console.log(data);
       localStorage.setItem('jwt', data.user.token); 
       const {id,email,role,username} = data.user;
-      dispatch(setUser({id,email,role,username})); // Dispatch action to set user data in Redux store
+      dispatch(setUser({id,email,role,username}));
       navigate('/');
       
     } catch (error) {
       console.error('Error:', error);
-      setError('Login failed. Please check your credentials and try again.'); // Set error message
+      setError('Login failed. Please check your credentials and try again.'); 
     }
   };
 
@@ -51,9 +51,9 @@ const Login = () => {
           <label className="block text-sm font-medium text-gray-300">Email:</label>
           <input 
             type="email" 
-            name="email" // Added name attribute
-            value={formData.email} // Access email from formData
-            onChange={handleChange} // Use handleChange for input
+            name="email" 
+            value={formData.email} 
+            onChange={handleChange} 
             required 
             className="mt-1 block w-full p-2 border border-gray-600 rounded bg-gray-700 text-white focus:outline-none focus:ring focus:ring-blue-500"
           />
@@ -62,14 +62,14 @@ const Login = () => {
           <label className="block text-sm font-medium text-gray-300">Password:</label>
           <input 
             type="password" 
-            name="password" // Added name attribute
-            value={formData.password} // Access password from formData
-            onChange={handleChange} // Use handleChange for input
+            name="password" 
+            value={formData.password} 
+            onChange={handleChange} 
             required 
             className="mt-1 block w-full p-2 border border-gray-600 rounded bg-gray-700 text-white focus:outline-none focus:ring focus:ring-blue-500"
           />
         </div>
-        {error && <p className="text-red-500 text-center">{error}</p>} {/* Display error message */}
+        {error && <p className="text-red-500 text-center">{error}</p>} 
         <button type="submit" className="w-full bg-blue-600 text-white p-2 rounded hover:bg-blue-700 transition duration-200">Login</button>
         <p className="mt-4 text-center text-gray-300">
           Don't have an account? 

@@ -8,4 +8,4 @@ declare global {
     }
   }
   
-  export type ExtendedRequest = Request; // Export the extended Request type
+  export type ExtendedRequest = Request;

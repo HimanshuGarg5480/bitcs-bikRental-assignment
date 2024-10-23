@@ -1,8 +1,6 @@
 import { useState } from "react";
-import Navbar from "../../components/Navbar";
 import AvailableBikes from "./components/AvailableBikes";
 import RentalForm from "./components/RentalForm";
-// import axios from 'axios'; // Removed axios import
 
 const Home = () => {
   const [showRentalForm,setShowRentalForm]=useState(false);

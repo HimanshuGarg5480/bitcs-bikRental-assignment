@@ -4,7 +4,7 @@ import bikeSlice from '../feature/bike/bikeSlice'
 
 const store = configureStore({
   reducer: {
-    user: userSlice, // Register the userSlice
+    user: userSlice, 
     bike:bikeSlice
   },
 });

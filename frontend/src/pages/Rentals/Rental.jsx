@@ -1,16 +1,13 @@
-// RentalsPage.js
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
-// import axios from 'axios'; // Removed axios import
 
 const Rental = () => {
   const [rentals, setRentals] = useState([]);
   const user = useSelector((state) => state.user.userInfo);
 
   useEffect(() => {
-    // Fetch rentals for logged-in user
-    fetch(`/api/rentals/user/${user.id}`) // Replace with user ID from auth
-      .then((response) => response.json()) // Convert response to JSON
+    fetch(`/api/rentals/user/${user.id}`) 
+      .then((response) => response.json())
       .then((data) => {
         setRentals(data);
       });
@@ -18,22 +15,21 @@ const Rental = () => {
 
   const handleReturnBike = (rentalId) => {
     fetch(`/api/rentals/${rentalId}/return`, {
-      method: "PATCH", // Specify the method
+      method: "PATCH", 
       headers: {
-        "Content-Type": "application/json", // Set content type
+        "Content-Type": "application/json", 
       },
       body: JSON.stringify({
         returnTime: new Date().toISOString(),
       }),
     })
-      .then((response) => response.json()) // Convert response to JSON
+      .then((response) => response.json()) 
       .then((data) => {
         console.log("Bike returned:", data);
-        // Fetch all rentals again after successful return
-        fetch(`/api/rentals/user/${user.id}`) // Replace with user ID from auth
-          .then((response) => response.json()) // Convert response to JSON
+        fetch(`/api/rentals/user/${user.id}`) 
+          .then((response) => response.json())
           .then((data) => {
-            setRentals(data); // Update rentals state
+            setRentals(data);
           });
       });
   };

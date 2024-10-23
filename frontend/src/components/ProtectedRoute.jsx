@@ -1,4 +1,3 @@
-// ProtectedRoute.js
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { Navigate } from "react-router-dom";
@@ -33,7 +32,6 @@ const ProtectedRoute = ({ children }) => {
     checkAuth();
   }, []);
 
-  // While loading, you could return a spinner or loader
   if (isAuthenticated === null) return <div>Loading...</div>;
 
   return isAuthenticated ? children : <Navigate to="/login" />;
