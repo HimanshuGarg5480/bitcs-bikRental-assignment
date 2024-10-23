@@ -1,22 +1,14 @@
 import { Injectable, CanActivate, ExecutionContext } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { Request } from 'express';
-
-// Extend the Request interface
-declare global {
-  namespace Express {
-    interface Request {
-      user?: any;
-    }
-  }
-}
+import { ExtendedRequest } from '../utils/request.interface'; // Import the extended Request interface
 
 @Injectable()
 export class JwtAuthGuard implements CanActivate {
   constructor(private readonly jwtService: JwtService) {}
 
   canActivate(context: ExecutionContext): boolean {
-    const request: Request = context.switchToHttp().getRequest();
+    const request: ExtendedRequest = context.switchToHttp().getRequest(); // Use the extended Request interface
     let token = request.cookies?.jwt;
 
     // Check for token in headers if not found in cookies

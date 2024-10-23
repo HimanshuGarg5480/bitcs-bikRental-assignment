@@ -10,7 +10,6 @@ const Home = () => {
     <>
       <RentalForm showRentalForm={showRentalForm} setShowRentalForm={setShowRentalForm}/>
       <div className="h-screen w-screen overflow-x-hidden overflow-y-auto">
-        <Navbar />
         <AvailableBikes setShowRentalForm={setShowRentalForm}/>
       </div>
     </>

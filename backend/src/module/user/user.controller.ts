@@ -1,4 +1,4 @@
-import { Body, Controller, Post, Res, UsePipes } from '@nestjs/common';
+import { Body, Controller, Get, Post, Req, Res, UseGuards, UsePipes } from '@nestjs/common';
 import { Response } from 'express';
 import { CreateUserDto } from './dtos/CreateUser.dto';
 import { UserService } from './user.service';
@@ -6,6 +6,8 @@ import { LoginUserDto } from './dtos/LoginUser.dto';
 import { JoiValidationPipe } from 'src/pipes/joiValidation.pipe';
 import { CreateUserSchema } from './validations/createuser.validate';
 import { LoginUserSchema } from './validations/loginuser.validate';
+import { JwtAuthGuard } from 'src/guards/jwtAuth.guard';
+import { ExtendedRequest } from 'src/utils/request.interface';
 
 @Controller('user')
 export class UserController {
@@ -61,5 +63,15 @@ export class UserController {
   @Post('logout')
   async logoutUser(@Res() res: Response) {
     await this.userService.logoutUser(res);
+  }
+
+  // Check if user is authenticated
+  @Get('check-auth')
+  @UseGuards(JwtAuthGuard)
+  async checkAuth(@Req() req: ExtendedRequest) {
+    return {
+      success:Boolean(req.user),
+      user:req.user
+    }
   }
 }

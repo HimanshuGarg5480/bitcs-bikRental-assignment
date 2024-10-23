@@ -22,4 +22,7 @@ export class Rental {
 
   @Column({ type: 'decimal' })
   totalCost: number;
+
+  @Column({ default: true })
+  active: boolean;
 }

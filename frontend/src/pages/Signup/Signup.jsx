@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import { Link } from "react-router-dom"; // Import Link for navigation
+import { Link, useNavigate } from "react-router-dom"; // Import Link for navigation
 import { setUser } from "../../redux/feature/user/userSlice";
 
 const Signup = () => {
   const [formData, setFormData] = useState({ username: "", email: "", password: "" });
   const [errorMessage, setErrorMessage] = useState(""); // State for error message
+
+  const navigate = useNavigate();
 
 
   const dispatch = useDispatch();
@@ -39,6 +41,7 @@ const Signup = () => {
       const { id, email, role, username } = data.user;
       dispatch(setUser({ id, email, role, username }));
       // Handle successful signup (e.g., redirect or show a success message)
+      navigate('/')
     } catch (error) {
       console.error("Error:", error);
       setErrorMessage(error.message); // Set error message to state

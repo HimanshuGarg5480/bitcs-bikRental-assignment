@@ -53,6 +53,7 @@ export class RentalService {
       rentalStartTime,
       rentalEndTime,
       totalCost,
+      active: true, // Set the active field to true
     });
 
     // Mark the bike as unavailable
@@ -103,6 +104,7 @@ export class RentalService {
       rental.bike.available = true;
       await this.bikeRepository.save(rental.bike);
 
+      rental.active = false; // Mark the rental as inactive
       return this.rentalRepository.save(rental);
     }
 
